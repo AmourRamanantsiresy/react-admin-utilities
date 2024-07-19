@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: API de gestion de posts
+  version: 1.0.0
+  description: API pour gérer les posts
+servers:
+  - url: "https://jsonplaceholder.typicode.com"
+
+paths:
+  /posts:
+    get:
+      tags:
+        - posts
+      operationId: getAll
+      summary: Récupérer la liste des posts
+      responses:
+        "200":
+          description: Liste des posts récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+
+    post:
+      tags:
+        - posts
+      summary: Créer un nouveau post
+      operationId: createAll
+      requestBody:
+        description: Post à créer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "201":
+          description: Post créé avec succès
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+
+  /posts/{id}:
+    get:
+      tags:
+        - publication
+      operationId: getById
+      summary: Récupérer un post par ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Post récupéré avec succès
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "404":
+          description: Post non trouvé
+
+    put:
+      tags:
+        - publication
+      operationId: updateOne
+      summary: Mettre à jour un post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Données du post à mettre à jour
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "200":
+          description: Post mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "404":
+          description: Post non trouvé
+
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        userId:
+          type: integer
+          example: 1
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Mon titre"
+        body:
+          type: string
+          example: "Le contenu de mon post"
+      required:
+        - userId
+        - id
+        - title
+        - body
