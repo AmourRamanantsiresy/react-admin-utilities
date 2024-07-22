@@ -17,20 +17,11 @@ conf.get("/posts", {
 });
 
 export const postProvider = {
-  async getList(
-    resource: string,
-    params: { pagination: { page: number; perPage: number } }
-  ) {
-    const { pagination } = params;
-    const { page, perPage } = pagination;
-
+  async getList(resource: string) {
     if (resource === "posts") {
       const { data = [] } = await postApi().getAll();
       return Promise.resolve({
-        data: ((data || []) as Post[]).slice(
-          perPage * page,
-          perPage * page + perPage
-        ),
+        data: (data || []) as Post[],
         pageInfo: { hasNextPage: false, hasPreviousPage: false },
         total: data.length,
       });
@@ -70,6 +61,4 @@ export const postProvider = {
   },
 };
 
-
-
-postApi().getAll()
+postApi().getAll();
